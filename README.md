@@ -119,3 +119,7 @@ crianças mantendo os nomes.
 | Tela apaga quando o servo mexe | Fonte fraca / falta o capacitor perto do servo |
 | Monitor Serial não responde | Porta errada (Bluetooth) ou velocidade diferente de 115200 |
 | Cartão não grava na tela | Use FAT32 de 8 a 32 GB; exFAT/128 GB falhou |
+
+## Licença
+
+[MIT](LICENSE) — pode usar, copiar e adaptar, mantendo o aviso de licença.
