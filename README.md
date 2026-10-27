@@ -35,7 +35,7 @@ piscando quando o valor está bem no limite.
 | Sensor | DHT11 | Temperatura e umidade |
 | MP3 | DFPlayer Mini + alto-falante 8 Ω | Frase de cada desenho |
 | Motor | Servo SG90 | Boca do boneco |
-| Fonte | 5 V / 3 A | Alimenta tudo |
+| Fontes | 2 × 5 V: uma de 3 A (tela, ESP32, DFPlayer) e outra só para o servo | Alimentação separada |
 | Cartões | 2 × microSD 8–32 GB, FAT32 | Tela e DFPlayer |
 | Outros | Resistor 1 kΩ, capacitor 470–1000 µF / 10 V | Proteção |
 
@@ -47,12 +47,15 @@ piscando quando o valor está bem no limite.
 | DHT11 | dados / + / − | GPIO 4 / 3V3 / GND |
 | DFPlayer Mini | TX / RX | GPIO 26 / GPIO 27 (RX com resistor de 1 kΩ) |
 | DFPlayer Mini | SPK_1 / SPK_2 | alto-falante 8 Ω |
-| Servo SG90 | laranja / vermelho / marrom | GPIO 13 / +5V da fonte / GND da fonte |
-| Fonte 5 V | +5V / GND | tela, DFPlayer, servo, VIN do ESP32 / GND comum |
+| Servo SG90 | laranja / vermelho / marrom | GPIO 13 / +5V da **fonte do servo** / GND da fonte do servo |
+| Fonte 1 (5 V / 3 A) | +5V / GND | tela, DFPlayer, VIN do ESP32 / GND comum |
+| Fonte 2 (5 V) | +5V / GND | só o servo / **unido ao GND da fonte 1** |
 
-- **GND comum** entre todas as partes, ligado em estrela no GND da fonte.
-- Capacitor de 470–1000 µF entre +5V e GND perto do servo: sem ele (e sem fonte de 3 A)
-  a tela apaga quando a boca mexe.
+- **GND comum** entre todas as partes e entre as duas fontes.
+- **O servo precisa de fonte própria.** Quando a boca faz força, o servo puxa ~0,7 A ou mais
+  e a tela DWIN apaga. Fonte de 3 A + capacitor de 1000 µF não bastaram; com uma fonte só
+  para o servo o problema sumiu. O capacitor (470–1000 µF / 10 V, entre +5V e GND na entrada
+  do servo) continua recomendado.
 
 ## Configuração da tela (DGUS)
 
@@ -116,7 +119,7 @@ crianças mantendo os nomes.
 | --- | --- |
 | Tela preta depois de gravar o SD | Página 0 vazia e ESP32 desligado; ligue o ESP32 ou aperte EN/RST |
 | Toque não chega ao ESP32 | Cartão com projeto antigo (`13TouchFile.bin` de 2 bytes = sem botões) |
-| Tela apaga quando o servo mexe | Fonte fraca / falta o capacitor perto do servo |
+| Tela apaga quando o servo faz força | Servo e tela na mesma fonte: use uma fonte só para o servo (GNDs unidos) |
 | Monitor Serial não responde | Porta errada (Bluetooth) ou velocidade diferente de 115200 |
 | Cartão não grava na tela | Use FAT32 de 8 a 32 GB; exFAT/128 GB falhou |
 
